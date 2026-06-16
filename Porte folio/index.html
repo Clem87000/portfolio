@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rapport de Stage</title>
+<link rel="icon" href="info.jpg" >
+<style>
+:root {
+  --bg: #f9f7f4;
+  --white: #ffffff;
+  --surface: #f0ede8;
+  --border: #e2ddd6;
+  --border2: #c8c2b8;
+  --text: #1c1a17;
+  --muted: #6b6560;
+  --subtle: #a09890;
+  --accent: #1d4ed8;
+  --accent-l: #eff4ff;
+  --accent-b: rgba(29,78,216,0.12);
+  --green: #15803d;
+  --green-l: #f0fdf4;
+  --orange: #c2410c;
+  --orange-l: #fff7ed;
+  --serif: 'Fraunces', Georgia, serif;
+  --mono: 'IBM Plex Mono', monospace;
+  --sans: 'IBM Plex Sans', system-ui, sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:15px;line-height:1.65;}
+::-webkit-scrollbar{width:3px;}
+::-webkit-scrollbar-thumb{background:var(--border2);}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  background:rgba(249,247,244,0.93);backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--border);
+  height:54px;display:flex;align-items:center;
+  padding:0 max(1.5rem,4vw);justify-content:space-between;
+}
+.nav-brand{display:flex;align-items:center;gap:10px;}
+.nav-badge{
+  font-family:var(--mono);font-size:10px;
+  background:var(--accent);color:#fff;
+  padding:3px 9px;border-radius:3px;letter-spacing:0.06em;
+}
+.nav-title{font-size:13px;color:var(--muted);font-weight:300;}
+.nav-links{display:flex;gap:2rem;list-style:none;}
+.nav-links a{font-size:12px;color:var(--muted);text-decoration:none;letter-spacing:0.03em;transition:color .15s;}
+.nav-links a:hover{color:var(--text);}
+.nav-print{
+  font-family:var(--mono);font-size:11px;color:var(--muted);
+  border:1px solid var(--border2);padding:4px 12px;border-radius:4px;
+  cursor:pointer;background:none;transition:all .15s;
+}
+.nav-print:hover{background:var(--surface);color:var(--text);}
+
+/* ── LAYOUT ── */
+.wrap{max-width:900px;margin:0 auto;padding:0 max(1.5rem,4vw);}
+
+/* ── COUVERTURE ── */
+.cover{
+  padding-top:calc(54px + 5rem);
+  padding-bottom:5rem;
+  display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;
+}
+.cover-crumb{
+  display:flex;align-items:center;gap:6px;
+  font-family:var(--mono);font-size:11px;color:var(--subtle);
+  letter-spacing:0.08em;margin-bottom:1.75rem;
+}
+.cover-crumb span{color:var(--accent);}
+.cover-h1{
+  font-family:var(--serif);font-size:clamp(2.2rem,4.5vw,3.2rem);
+  font-weight:600;line-height:1.1;letter-spacing:-0.02em;
+  margin-bottom:1rem;
+}
+.cover-h1 em{font-style:italic;font-weight:300;color:var(--muted);}
+.cover-sub{
+  font-size:0.9rem;color:var(--muted);line-height:1.8;
+  margin-bottom:2rem;max-width:380px;
+}
+.cover-meta{
+  display:flex;flex-direction:column;gap:6px;
+  font-family:var(--mono);font-size:11px;color:var(--muted);
+  margin-bottom:2rem;
+}
+.cover-meta span{display:flex;gap:8px;}
+.cover-meta b{color:var(--text);font-weight:500;}
+.cover-btns{display:flex;gap:0.75rem;flex-wrap:wrap;}
+.btn{
+  font-size:12px;font-weight:500;padding:8px 18px;border-radius:5px;
+  text-decoration:none;transition:all .15s;display:inline-flex;
+  align-items:center;gap:6px;letter-spacing:0.03em;border:none;cursor:pointer;
+  font-family:var(--sans);
+}
+.btn-solid{background:var(--text);color:var(--bg);}
+.btn-solid:hover{background:#333;transform:translateY(-1px);}
+.btn-ghost{background:transparent;color:var(--text);border:1px solid var(--border2);}
+.btn-ghost:hover{background:var(--surface);}
+
+/* Carte entreprise */
+.company-card{
+  background:var(--white);border:1px solid var(--border);
+  border-radius:12px;padding:1.75rem;
+  box-shadow:0 1px 2px rgba(0,0,0,.03),0 4px 16px rgba(0,0,0,.04);
+}
+.company-logo{
+  width:48px;height:48px;background:var(--accent-l);border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--mono);font-size:1rem;color:var(--accent);font-weight:500;
+  margin-bottom:1rem;
+}
+.company-name{font-size:1rem;font-weight:600;margin-bottom:2px;}
+.company-sector{font-size:12px;color:var(--muted);margin-bottom:1.25rem;}
+.company-rows{display:flex;flex-direction:column;gap:0;}
+.company-row{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:8px 0;border-bottom:1px solid var(--border);font-size:12px;
+}
+.company-row:last-child{border-bottom:none;}
+.company-row-l{color:var(--muted);}
+.company-row-r{font-family:var(--mono);font-size:11px;color:var(--text);font-weight:500;}
+.duration-bar{
+  margin-top:1.25rem;
+  background:var(--surface);border-radius:4px;height:6px;overflow:hidden;
+}
+.duration-fill{
+  height:100%;background:var(--accent);border-radius:4px;
+  width:0%;transition:width 1.2s ease;
+}
+
+/* ── SECTIONS ── */
+.section{padding:4.5rem 0;border-top:1px solid var(--border);}
+.sec-eyebrow{
+  font-family:var(--mono);font-size:10px;color:var(--subtle);
+  letter-spacing:0.18em;text-transform:uppercase;margin-bottom:0.4rem;
+}
+.sec-h{
+  font-family:var(--serif);font-size:1.9rem;font-weight:600;
+  line-height:1.2;margin-bottom:2.5rem;
+}
+.sec-h em{font-style:italic;font-weight:300;color:var(--muted);}
+
+/* ── MISSIONS ── */
+.missions-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.mission-card{
+  background:var(--white);border:1px solid var(--border);border-radius:10px;
+  padding:1.4rem;transition:border-color .15s,box-shadow .15s;
+  position:relative;overflow:hidden;
+}
+.mission-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  border-radius:3px 3px 0 0;opacity:0;transition:opacity .15s;
+}
+.mission-card.blue::before{background:var(--accent);}
+.mission-card.green::before{background:var(--green);}
+.mission-card.orange::before{background:var(--orange);}
+.mission-card:hover{border-color:var(--border2);box-shadow:0 4px 12px rgba(0,0,0,.06);}
+.mission-card:hover::before{opacity:1;}
+.mission-icon{font-size:1.2rem;margin-bottom:0.75rem;}
+.mission-title{font-size:0.9rem;font-weight:600;margin-bottom:0.5rem;}
+.mission-desc{font-size:0.825rem;color:var(--muted);line-height:1.7;margin-bottom:0.9rem;}
+.mission-tags{display:flex;flex-wrap:wrap;gap:4px;}
+.mtag{
+  font-family:var(--mono);font-size:10px;
+  padding:2px 7px;border-radius:3px;
+}
+.mtag.blue{background:var(--accent-l);color:var(--accent);}
+.mtag.green{background:var(--green-l);color:var(--green);}
+.mtag.orange{background:var(--orange-l);color:var(--orange);}
+.mtag.gray{background:var(--surface);color:var(--muted);}
+
+/* ── COMPÉTENCES ── */
+.skills-layout{display:grid;grid-template-columns:1fr 1fr;gap:3rem;}
+.skill-group{margin-bottom:1.75rem;}
+.skill-group-title{
+  font-size:11px;font-weight:600;letter-spacing:0.08em;
+  text-transform:uppercase;color:var(--muted);margin-bottom:0.85rem;
+}
+.skill-tags-list{display:flex;flex-wrap:wrap;gap:6px;}
+.stag{
+  font-family:var(--mono);font-size:11px;
+  padding:4px 10px;border-radius:4px;border:1px solid;
+}
+.stag.blue{background:var(--accent-l);color:var(--accent);border-color:rgba(29,78,216,0.15);}
+.stag.green{background:var(--green-l);color:var(--green);border-color:rgba(21,128,61,0.15);}
+.stag.orange{background:var(--orange-l);color:var(--orange);border-color:rgba(194,65,12,0.15);}
+
+/* Compétences transversales */
+.soft-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0.75rem;}
+.soft-item{
+  background:var(--white);border:1px solid var(--border);border-radius:8px;
+  padding:0.9rem;text-align:center;font-size:12px;
+}
+.soft-item-icon{font-size:1.4rem;margin-bottom:6px;}
+.soft-item-label{color:var(--muted);font-size:11px;}
+
+/* ── BILAN ── */
+.bilan-layout{display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-bottom:2rem;}
+.bilan-card{
+  background:var(--white);border:1px solid var(--border);border-radius:10px;padding:1.5rem;
+}
+.bilan-card-title{
+  font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:1rem;
+  display:flex;align-items:center;gap:6px;
+}
+.bilan-card-title::before{
+  content:'';width:8px;height:8px;border-radius:50%;flex-shrink:0;
+}
+.bilan-card.pos .bilan-card-title::before{background:var(--green);}
+.bilan-card.neg .bilan-card-title::before{background:var(--orange);}
+.bilan-list{list-style:none;display:flex;flex-direction:column;gap:6px;}
+.bilan-list li{
+  font-size:0.825rem;color:var(--muted);line-height:1.6;
+  padding-left:1rem;position:relative;
+}
+.bilan-card.pos .bilan-list li::before{content:'↗';position:absolute;left:0;color:var(--green);font-size:11px;}
+.bilan-card.neg .bilan-list li::before{content:'→';position:absolute;left:0;color:var(--orange);font-size:11px;}
+.bilan-quote{
+  background:var(--accent-l);border-left:3px solid var(--accent);
+  border-radius:0 8px 8px 0;padding:1.25rem 1.5rem;
+  font-family:var(--serif);font-style:italic;font-size:1.05rem;
+  color:var(--text);line-height:1.6;
+}
+
+/* ── CONTACT ── */
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start;}
+.contact-intro{
+  font-family:var(--serif);font-size:1.7rem;font-weight:600;line-height:1.25;margin-bottom:1rem;
+}
+.contact-intro em{font-style:italic;font-weight:300;color:var(--muted);}
+.contact-note{font-size:0.85rem;color:var(--muted);line-height:1.8;margin-bottom:1.75rem;}
+.contact-items{display:flex;flex-direction:column;gap:0.5rem;}
+.contact-item{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0.8rem 1rem;background:var(--white);border:1px solid var(--border);
+  border-radius:7px;text-decoration:none;color:var(--text);font-size:13px;
+  transition:all .15s;
+}
+.contact-item:hover{border-color:var(--accent);color:var(--accent);}
+.contact-item-l{display:flex;align-items:center;gap:8px;}
+.contact-item-v{font-family:var(--mono);font-size:10px;color:var(--subtle);}
+.form{display:flex;flex-direction:column;gap:0.8rem;}
+.field{display:flex;flex-direction:column;gap:4px;}
+.field label{font-size:11px;font-weight:500;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;}
+.field input,.field textarea{
+  font-family:var(--sans);font-size:13px;background:var(--white);
+  border:1px solid var(--border);border-radius:6px;padding:9px 13px;
+  color:var(--text);outline:none;transition:border-color .15s;resize:none;
+}
+.field input:focus,.field textarea:focus{border-color:var(--accent);}
+.field textarea{height:100px;}
+
+/* FOOTER */
+footer{
+  border-top:1px solid var(--border);padding:1.75rem max(1.5rem,4vw);
+  max-width:900px;margin:0 auto;
+  display:flex;justify-content:space-between;align-items:center;
+  font-family:var(--mono);font-size:10px;color:var(--subtle);
+}
+footer a{color:var(--muted);text-decoration:none;}
+
+/* ANIM */
+.fade{opacity:0;transform:translateY(14px);transition:opacity .5s ease,transform .5s ease;}
+.fade.on{opacity:1;transform:translateY(0);}
+
+@media(max-width:720px){
+  .cover,.missions-grid,.skills-layout,.bilan-layout,.contact-grid{grid-template-columns:1fr;}
+  .nav-links,.nav-print{display:none;}
+  .soft-grid{grid-template-columns:1fr 1fr;}
+  footer{flex-direction:column;gap:.5rem;text-align:center;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">
+    <span class="nav-badge">STAGE</span>
+    <span class="nav-title">BTS SIO — Option SISR</span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#missions">Missions</a></li>
+    <li><a href="#competences">Compétences</a></li>
+    <li><a href="#bilan">Bilan</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <button class="nav-print" onclick="window.print()">⎙ Imprimer</button>
+</nav>
+
+<div class="wrap">
+
+  <!-- COUVERTURE -->
+  <div class="cover">
+    <div class="cover-left">
+      <div class="cover-crumb">
+        BTS SIO · <span>Option SISR</span> · 2025–2026
+      </div>
+      <h1 class="cover-h1">
+        Rapport de stage<br><em>Systèmes & Réseaux</em>
+      </h1>
+      <p class="cover-sub">
+        Stage de 5 semaines au sein de la Direction des Usages Numériques (agglo de brive),
+        spécialisé en infrastructure réseau et administration système.
+      </p>
+      <div class="cover-meta">
+        <span><b>Étudiant</b> Clement Lebouteiller</span>
+        <span><b>Établissement</b> Lycée Valadon, Limoges</span>
+        <span><b>Tuteur entreprise</b> M. Simon BARCAREL</span>
+        <span><b>Période</b> 25 Mai – 25 Juin 2026</span>
+      </div>
+      <div class="cover-btns">
+        <a href="#missions" class="btn btn-solid">Voir les missions →</a>
+        <a href="#bilan" class="btn btn-ghost">Bilan du stage</a>
+      </div>
+    </div>
+
+    <div class="company-card fade">
+      <div class="company-logo"></div>
+      <div class="company-name">Direction des Usages Numériques</div>
+      <div class="company-sector">infrastructure réseau et système</div>
+      <div class="company-rows">
+        <div class="company-row">
+          <span class="company-row-l">Secteur</span>
+          <span class="company-row-r">Direction des Usages Numériques</span>
+        </div>
+        <div class="company-row">
+          <span class="company-row-l">Effectif</span>
+          <span class="company-row-r">16 salariés</span>
+        </div>
+        <div class="company-row">
+          <span class="company-row-l">Localisation</span>
+          <span class="company-row-r">Brive La Gaillarde (19)</span>
+        </div>
+        <div class="company-row">
+          <span class="company-row-l">Durée du stage</span>
+          <span class="company-row-r">5 semaines</span>
+        </div>
+        <div class="company-row">
+          <span class="company-row-l">Service d'accueil</span>
+          <span class="company-row-r">Infra & Réseau</span>
+        </div>
+      </div>
+      <div class="duration-bar">
+        <div class="duration-fill" id="dbar" style="width:100%;"></div>
+      </div>
+      <div style="font-family:var(--mono);font-size:10px;color:var(--subtle);margin-top:5px;text-align:right;">
+        BTS terminé — 75%
+      </div>
+    </div>
+  </div>
+
+  <!-- MISSIONS -->
+  <section class="section" id="missions">
+    <div class="sec-eyebrow">01 — Activités réalisées</div>
+    <h2 class="sec-h">Missions <em>effectuées</em></h2>
+    <div class="missions-grid">
+
+      <div class="mission-card blue fade">
+        <div class="mission-icon">🔌</div>
+        <div class="mission-title">Réseaux</div>
+        <div class="mission-desc">
+          Test de SFP fibre multimode sur des switch Alcatel-Lucent.
+          Brassage de prise réseau dans une bai.
+          Analyse réseau.
+          Modification de scripte pour switch.
+        </div>
+        <div class="mission-tags">
+          <span class="mtag blue">Alcatel-Lucent</span>
+          <span class="mtag blue">VLAN</span>
+          <span class="mtag blue">Switch</span>
+        </div>
+      </div>
+
+      <div class="mission-card green fade">
+        <div class="mission-icon">🖥️</div>
+        <div class="mission-title">Administration système</div>
+        <div class="mission-desc">
+          mise a jour / nettoyage d’ordi de pret.
+          redescendre des images sur des postes (employer et usager de la mehdiateque)
+          redémarrage de switch a la médiathèque
+          partage de fichier afin de voir la vitesse de transferts des SFP 
+        </div>
+        <div class="mission-tags">
+          <span class="mtag green"></span>
+          <span class="mtag green"></span>
+          <span class="mtag gray"></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMPÉTENCES -->
+  <section class="section" id="competences">
+    <div class="sec-eyebrow">02 — Acquis professionnels</div>
+    <h2 class="sec-h">Compétences <em>développées</em></h2>
+    <div class="skills-layout">
+      <div>
+        <div class="skill-group">
+          <div class="skill-group-title">Général</div>
+          <div class="skill-tags-list">
+            <span class="stag orange">travail en équipe</span>
+            <span class="stag orange">communication</span>
+            <span class="stag orange">travail en autonomie</span>
+            <span class="stag orange">résolution de problèmes</span>
+            <span class="stag orange">adaptabilité</span>
+          </div>
+        </div>
+        <div class="skill-group">
+          <div class="skill-group-title">Réseau</div>
+          <div class="skill-tags-list">
+            <span class="stag blue">Alcatel-Lucent</span>
+            <span class="stag blue">VLAN</span>
+            <span class="stag blue">Switch</span>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="skill-group">
+          <div class="skill-group-title">Systèmes</div>
+          <div class="skill-tags-list">
+            <span class="stag green"></span>
+            <span class="stag green"></span>
+            <span class="stag green"></span>
+            <span class="stag green"></span>
+            <span class="stag green"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:2rem;">
+      <div class="skill-group-title" style="margin-bottom:0.85rem;">Compétences transversales</div>
+      <div class="soft-grid">
+        <div class="soft-item fade">
+          <div class="soft-item-icon">🗣️</div>
+          <div style="font-weight:500;font-size:12px;margin-bottom:3px;">Communication</div>
+          <div class="soft-item-label">Échanges avec les usagers et les équipes</div>
+        </div>
+        <div class="soft-item fade">
+          <div class="soft-item-icon">🤝</div>
+          <div style="font-weight:500;font-size:12px;margin-bottom:3px;">Travail en équipe</div>
+          <div class="soft-item-label">Collaboration avec les differentes équipe du service si besoin</div>
+        </div>
+        <div class="soft-item fade">
+          <div class="soft-item-icon">👍</div>
+          <div style="font-weight:500;font-size:12px;margin-bottom:3px;">Résolution</div>
+          <div class="soft-item-label">venir en aide au usager</div>
+        </div>
+        <div class="soft-item fade">
+          <div class="soft-item-icon">📊</div>
+          <div style="font-weight:500;font-size:12px;margin-bottom:3px;">Reporting</div>
+          <div class="soft-item-label">rendre compte des activités</div>
+        </div>
+        <div class="soft-item fade">
+          <div class="soft-item-icon">💡</div>
+          <div style="font-weight:500;font-size:12px;margin-bottom:3px;">Curiosité</div>
+          <div class="soft-item-label">Apprentissage autonome</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BILAN -->
+  <section class="section" id="bilan">
+    <div class="sec-eyebrow">03 — Retour d'expérience</div>
+    <h2 class="sec-h">Bilan <em>du stage</em></h2>
+    <div class="bilan-layout">
+      <div class="bilan-card pos fade">
+        <div class="bilan-card-title">Points positifs</div>
+        <ul class="bilan-list">
+          <li>Mise en pratique des cours</li>
+          <li>Travail en autonomie</li>
+          <li>Découverte de l'environnement professionnel et du travail en équipe</li>
+          <li>Maîtrise d'equipement de nouvelle marque(Alcatel-Lucent)</li>
+          <li>Bonne intégration et une superbe équipe tres accueillante et chaleureuse</li>
+        </ul>
+      </div>
+    </div>
+    <div class="bilan-quote fade">
+      « Ce stage m'a permis de de mettre en pratique certaine notion vue en cours.
+      il m'a permis aussi de travailler en equipe sur certaine tache qui mon etait demandé de realiser. 
+      ils m'ont permis de relase des taches en autonomie tout en restant a ma disposition. »
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="section" id="contact">
+    <div class="sec-eyebrow">04 — Coordonnées</div>
+    <div class="contact-grid">
+      <div>
+        <p class="contact-intro">Me <em>contacter</em></p>
+        <p class="contact-note">
+          Étudiant en BTS SIO option SISR.
+        </p>
+        <div class="contact-items">
+          <a href="mailto:clement.lebouteiller87@gmail.com" class="contact-item">
+            <span class="contact-item-l">📩 Email</span>
+            <span class="contact-item-v">clement.lebouteiller87@gmail.com</span>
+          </a>
+          <a href="C:\Users\cleme\Downloads\LEBOUTEILLER Clement CV.pdf" download class="contact-item">
+            <span class="contact-item-l">📜 CV</span>
+            <span class="contact-item-v">Télécharger mon CV</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  <span>Clement Lebouteiller — BTS SIO SISR 2025–2027</span>
+  <a href="#">↑ Haut de page</a>
+</footer>
+
+<script>
+const obs = new IntersectionObserver(entries => {
+  entries.forEach((e,i) => {
+    if(e.isIntersecting){
+      setTimeout(()=>e.target.classList.add('on'), i*70);
+      obs.unobserve(e.target);
+    }
+  });
+},{threshold:0.08});
+document.querySelectorAll('.fade').forEach(el=>obs.observe(el));
+
+
+</script>
+</body>
+</html>
